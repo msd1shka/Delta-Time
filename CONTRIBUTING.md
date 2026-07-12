@@ -1,6 +1,6 @@
-# Contributing to XTime
+# Contributing to Delta-Time
 
-XTime is alpha software, so right now, honest feedback is worth more than a pull request. If you only have time for one thing, open an issue about something that felt broken, unclear, or unsafe. That's a real contribution.
+De is alpha software, so right now, honest feedback is worth more than a pull request. If you only have time for one thing, open an issue about something that felt broken, unclear, or unsafe. That's a real contribution.
 
 ## Before you start
 
@@ -13,8 +13,8 @@ Open a GitHub issue with:
 - What you did, step by step
 - What you expected to happen
 - What actually happened
-- Your OS and how you're running XTime (from source, packaged build, etc.)
-- Logs, if you have them and they don't contain anything you don't want public (XTime doesn't scrub logs automatically yet)
+- Your OS and how you're running Delta-Time (from source, packaged build, etc.)
+- Logs, if you have them and they don't contain anything you don't want public (Delta-Time doesn't scrub logs automatically yet)
 
 If the bug touches encryption, identity verification, or key handling, please label it `security` so it gets looked at first.
 
