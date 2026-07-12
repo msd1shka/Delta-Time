@@ -1,12 +1,12 @@
 # Threat Model
 
-This document describes what XTime protects against today, what it doesn't, and what's planned. It's written to be read honestly, not to make the software look better than it is. XTime is alpha software and has not had a professional security audit. Treat every claim here as "true as far as we know," not "guaranteed."
+This document describes what Delta-Time protects against today, what it doesn't, and what's planned. It's written to be read honestly, not to make the software look better than it is. Delta-Time is alpha software and has not had a professional security audit. Treat every claim here as "true as far as we know," not "guaranteed."
 
 If you find something here that's wrong, incomplete, or outdated, please open an issue. This document is a living one and gets less accurate the longer it goes unchallenged.
 
 ---
 
-## What XTime is trying to protect
+## What Delta-Time is trying to protect
 
 - **Message content** — what you actually said, and to whom.
 - **Message integrity and authenticity** — that a message really came from who it claims to, unmodified.
@@ -21,7 +21,7 @@ If you find something here that's wrong, incomplete, or outdated, please open an
 - Someone with temporary or permanent physical access to your device, trying to read stored messages or steal your identity key.
 - An entity trying to compel a "provider" to hand over data. (There isn't one to compel, that's the point, but see the caveats below.)
 
-We are **not** currently modeling nation-state-level global traffic analysis, and we're not claiming protection against an adversary who controls a large fraction of the Tor network. If your threat model includes that level of adversary, XTime in its current alpha state is not the right tool yet, full stop.
+We are **not** currently modeling nation-state-level global traffic analysis, and we're not claiming protection against an adversary who controls a large fraction of the Tor network. If your threat model includes that level of adversary, Delta-Time in its current alpha state is not the right tool yet, full stop.
 
 ---
 
@@ -39,7 +39,7 @@ Your identity is a cryptographic keypair generated locally on first launch. Ther
 Every message is signed with the sender's private key and verified by the recipient using their public key. This closes a specific, real vulnerability that existed earlier in development: a sender identity field that could be spoofed by a malicious or compromised peer. Signing means a message claiming to be from someone can be cryptographically checked, not just trusted at face value.
 
 ### TOFU identity pinning, shown explicitly
-The first time you connect to a contact, XTime shows you their key fingerprint and asks you to confirm it, rather than silently trusting whatever key shows up. This is Trust On First Use: it protects you *after* that first verified connection, assuming you actually checked the fingerprint against something you trust (in person, a separate channel, etc.). It does not protect the very first exchange if that exchange itself is intercepted or spoofed, verification is only as strong as the channel you used to confirm it.
+The first time you connect to a contact, Delta-Time shows you their key fingerprint and asks you to confirm it, rather than silently trusting whatever key shows up. This is Trust On First Use: it protects you *after* that first verified connection, assuming you actually checked the fingerprint against something you trust (in person, a separate channel, etc.). It does not protect the very first exchange if that exchange itself is intercepted or spoofed, verification is only as strong as the channel you used to confirm it.
 
 ### Encryption at rest
 Local message history is encrypted on disk rather than stored as plaintext, so a lost or stolen device doesn't hand over your conversation history for free.
@@ -54,8 +54,8 @@ Local message history is encrypted on disk rather than stored as plaintext, so a
 | **Windows path handling** | Runtime paths aren't yet using Flet's proper app storage location, which affects reliability of a packaged Windows build. | Migrating to `FLET_APP_STORAGE_DATA` for runtime paths as part of the Windows build work ahead of beta. |
 | **Tor binary discovery on Windows** | Locating `tor.exe` isn't yet robust for a packaged executable context. | Resolving Tor binary discovery relative to the running executable, part of the same pre-beta packaging effort. |
 | **Independent security audit** | Has not happened. Everything in this document reflects our own understanding of the code, not third-party verification. | Planned after beta, once the codebase and packaging are stable enough for an audit to be worth the cost. Will be linked here when complete, along with whatever it finds, good or bad. |
-| **Traffic analysis resistance** | XTime relies on Tor's protections. It does not currently add anything beyond that (e.g. cover traffic, timing obfuscation) to resist a well-resourced adversary doing traffic correlation. | Not currently planned for the alpha/beta timeline. Would require significant design work and is being tracked as a longer-term research question, not a near-term fix. |
-| **Device compromise** | If your device is compromised (malware, physical access while unlocked, etc.), XTime cannot protect your keys or message content. No software can fully solve this. | Out of scope for the app itself. Guidance on device hygiene may be added to documentation, but this isn't something XTime can fix in code. |
+| **Traffic analysis resistance** | Delta-Time relies on Tor's protections. It does not currently add anything beyond that (e.g. cover traffic, timing obfuscation) to resist a well-resourced adversary doing traffic correlation. | Not currently planned for the alpha/beta timeline. Would require significant design work and is being tracked as a longer-term research question, not a near-term fix. |
+| **Device compromise** | If your device is compromised (malware, physical access while unlocked, etc.), Delta-Time cannot protect your keys or message content. No software can fully solve this. | Out of scope for the app itself. Guidance on device hygiene may be added to documentation, but this isn't something DeltaTime can fix in code. |
 | **Metadata from Tor circuit behavior** | Standard Tor metadata exposure applies (e.g. that you're using Tor at all may be visible to a local network observer, even if content and destination aren't). | No change planned beyond what Tor itself provides; using bridges is recommended in networks where Tor usage itself needs to be concealed. |
 | **First-contact verification** | TOFU pinning depends entirely on the user actually checking the fingerprint through a trusted out-of-band channel. If skipped, there's no protection against a spoofed first contact. | Considering clearer in-app warnings when a fingerprint is confirmed without cross-checking, no hard technical fix exists for this without adding friction elsewhere. |
 
